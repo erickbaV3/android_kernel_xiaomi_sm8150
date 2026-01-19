@@ -1,0 +1,8 @@
+[submodule "AnyKernel"]
+	path = AnyKernel
+	url = https://github.com/raystef66/AnyKernel.git
+	branch = cepheus
+[submodule "KernelSU-Next"]
+	path = KernelSU-Next
+	url = https://github.com/Lemonisniket/KernelSU-Next
+	branch = susfs-integration
