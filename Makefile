@@ -721,10 +721,10 @@ endif
 LLVM_AR		:= llvm-ar
 LLVM_NM		:= llvm-nm
 export LLVM_AR LLVM_NM
-# Set O3 optimization level for LTO
-LDFLAGS		+= -O3
-LDFLAGS		+= --plugin-opt=O3
-LDFLAGS		+= --lto-O3
+# Set O2 optimization level for LTO
+LDFLAGS		+= -O2
+LDFLAGS		+= --plugin-opt=O2
+LDFLAGS		+= --lto-O2
 endif
 
 # The arch Makefile can set ARCH_{CPP,A,C}FLAGS to override the default
@@ -750,11 +750,8 @@ ifeq ($(cc-name),gcc)
 KBUILD_CFLAGS	+= -mcpu=cortex-a76.cortex-a55 -mtune=cortex-a76.cortex-a55
 endif
 ifeq ($(cc-name),clang)
-KBUILD_CFLAGS   += -O3
-KBUILD_CFLAGS	+= -mcpu=cortex-a76 -mtune=cortex-a76
-ifdef CONFIG_LTO_CLANG
-KBUILD_CFLAG	+= -fwhole-program-vtables
-endif
+KBUILD_CFLAGS   += -O2
+KBUILD_CFLAGS += -march=armv8.2-a+dotprod -mcpu=cortex-a76+crypto
 ifdef CONFIG_LLVM_POLLY
 KBUILD_CFLAGS	+= -mllvm -polly \
 		   -mllvm -polly-ast-use-context \
@@ -857,8 +854,8 @@ endif
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
 
 ifeq ($(ld-name),lld)
-KBUILD_LDFLAGS  += -mllvm -mcpu=cortex-a76
-LDFLAGS += --lto-O3
+    KBUILD_LDFLAGS  += -mllvm -mcpu=cortex-a76+crypto
+    LDFLAGS         += --lto-O2
 endif
 
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
