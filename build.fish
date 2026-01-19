@@ -6,7 +6,7 @@ set -x DEFCONFIG cepheus_defconfig
 set -x OUT_DIR out
 set -x ANYKERNEL_DIR AnyKernel
 
-set -x TC_DIR $HOME/toolchains/clang-r547379
+set -x TC_DIR $HOME/toolchains/clang-r584948
 set -x PATH $TC_DIR/bin $PATH
 
 set -x KBUILD_BUILD_USER "JleMoHuCHuKeT"
@@ -27,7 +27,7 @@ set MAKE_OPTS \
     OBJCOPY=llvm-objcopy \
     OBJDUMP=llvm-objdump \
     STRIP=llvm-strip \
-    KCFLAGS="-O3 -march=armv8.2-a+dotprod -mcpu=cortex-a76+crypto" \
+    KCFLAGS="-O2 -march=armv8.2-a+dotprod -mcpu=cortex-a76+crypto" \
     -j(nproc --all)
 
 function build_kernel
@@ -49,9 +49,9 @@ function build_kernel
     echo (set_color cyan)"start build..."(set_color normal)
     mkdir -p $OUT_DIR
     
-    make $MAKE_OPTS Image-dtb
+    make $MAKE_OPTS Image.gz-dtb 
     
-    if test -f $OUT_DIR/arch/arm64/boot/Image-dtb
+    if test -f $OUT_DIR/arch/arm64/boot/Image.gz-dtb
         echo (set_color green)"Build ended"(set_color normal)
         copy_to_anykernel
     else
@@ -63,7 +63,8 @@ end
 function copy_to_anykernel
     set -l ZIP_NAME "openela_ksun_susfs.zip"
     if test -d $ANYKERNEL_DIR
-        cp $OUT_DIR/arch/arm64/boot/Image-dtb $ANYKERNEL_DIR/
+	rm -f $ANYKERNEL_DIR/Image*
+        cp $OUT_DIR/arch/arm64/boot/Image.gz-dtb $ANYKERNEL_DIR/
         pushd $ANYKERNEL_DIR
         zip -r9 ~/$ZIP_NAME ./* 
         popd
