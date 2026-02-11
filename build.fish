@@ -2,7 +2,7 @@
 
 # --- Settings ---
 set -x ARCH arm64
-set -x DEFCONFIG cepheus_defconfig
+set -x DEFCONFIG vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/cepheus.config
 set -x OUT_DIR out
 set -x ANYKERNEL_DIR AnyKernel
 
@@ -11,6 +11,8 @@ set -x PATH $TC_DIR/bin $PATH
 
 set -x KBUILD_BUILD_USER "JleMoHuCHuKeT"
 set -x KBUILD_BUILD_HOST "host"
+
+set SYSTEM_DTC (which dtc)
 
 set MAKE_OPTS \
     ARCH=$ARCH \
@@ -27,8 +29,11 @@ set MAKE_OPTS \
     OBJCOPY=llvm-objcopy \
     OBJDUMP=llvm-objdump \
     STRIP=llvm-strip \
-    KCFLAGS="-O2 -march=armv8.2-a+dotprod -mcpu=cortex-a76+crypto" \
-    -j(nproc --all)
+    DTC=$SYSTEM_DTC \
+    DTC_EXT=$SYSTEM_DTC \
+    DTC_FLAGS="-@" \
+    KCFLAGS="-O2 -march=armv8.2-a+dotprod -mcpu=cortex-a76+crypto -Wno-error" \
+    -j20
 
 function build_kernel
     read -l -P "Clean out? [y/N]: " confirm_clean
