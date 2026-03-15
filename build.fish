@@ -2,14 +2,14 @@
 
 # --- Settings ---
 set -x ARCH arm64
-set -x DEFCONFIG cepheus_defconfig
+set -x DEFCONFIG cepheus_defconfig droidspaces.config
 set -x OUT_DIR out
 set -x ANYKERNEL_DIR AnyKernel
 
 set -x TC_DIR $HOME/toolchains/clang-r584948
 set -x PATH $TC_DIR/bin $PATH
 
-set -x KBUILD_BUILD_USER "JleMoHuCHuKeT"
+set -x KBUILD_BUILD_USER "erickbaV2"
 set -x KBUILD_BUILD_HOST "host"
 
 set MAKE_OPTS \
