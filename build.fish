@@ -6,7 +6,7 @@ set -x DEFCONFIG cepheus_defconfig droidspaces.config
 set -x OUT_DIR out
 set -x ANYKERNEL_DIR AnyKernel
 
-set -x TC_DIR $HOME/toolchains/clang-r584948
+set -x TC_DIR /home/erickba/Documentos/Droidspaces/linux-x86/clang-r536225
 set -x PATH $TC_DIR/bin $PATH
 
 set -x KBUILD_BUILD_USER "erickbaV2"
